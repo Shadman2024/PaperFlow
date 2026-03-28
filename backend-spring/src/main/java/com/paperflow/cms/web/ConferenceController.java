@@ -58,8 +58,8 @@ public class ConferenceController {
                 null
             ))
             .toList();
-        ConferenceDtos.Meta meta =
-            new ConferenceDtos.Meta(conferences.getTotalElements());
+        ConferenceDtos.ListConferencesResponse.Meta meta =
+            new ConferenceDtos.ListConferencesResponse.Meta(conferences.getTotalElements());
         return ResponseEntity.ok(new ConferenceDtos.ListConferencesResponse(data, meta));
     }
 }

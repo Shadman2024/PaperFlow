@@ -46,15 +46,14 @@ Defaults:
 
 Requirements:
 
-- Java 21
+- Java 17+
 - Maven wrapper (`./mvnw`) is included via Spring Boot tooling
--but sadly this was built with ai , and thus no mvnw , so use mvn instead
 
 Run:
 
 ```bash
 cd backend-spring
-FASTAPI_BASE_URL=http://localhost:8001 mvn spring-boot:run
+FASTAPI_BASE_URL=http://localhost:8001 ./mvnw spring-boot:run
 ```
 
 Defaults:

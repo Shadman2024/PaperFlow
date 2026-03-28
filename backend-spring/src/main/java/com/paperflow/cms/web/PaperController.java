@@ -26,7 +26,7 @@ public class PaperController {
         Paper paper = paperService.submitPaper(
             request.conferenceId(),
             request.title(),
-            request.paper_abstract(),
+            request.abstract(),
             request.track()
         );
         return ResponseEntity.ok(
