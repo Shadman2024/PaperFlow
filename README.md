@@ -46,14 +46,14 @@ Defaults:
 
 Requirements:
 
-- Java 17+
+- Java 21(spring boot does not support java 25 )
 - Maven wrapper (`./mvnw`) is included via Spring Boot tooling
-
+- since it was written by ai , so no , .mvnw , use mvn instead
 Run:
 
 ```bash
 cd backend-spring
-FASTAPI_BASE_URL=http://localhost:8001 ./mvnw spring-boot:run
+FASTAPI_BASE_URL=http://localhost:8001 mvn spring-boot:run
 ```
 
 Defaults:
@@ -152,7 +152,7 @@ Make sure all three services are running:
 
    ```bash
    cd backend-spring
-   FASTAPI_BASE_URL=http://localhost:8001 ./mvnw spring-boot:run
+   FASTAPI_BASE_URL=http://localhost:8001 mvn spring-boot:run
    ```
 
 3. Next.js:
