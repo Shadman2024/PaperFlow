@@ -27,7 +27,8 @@ public class AuthDtos {
         long expiresIn,
         String userId,
         String email,
-        java.util.Set<String> roles
+        java.util.Set<String> roles,
+        String fullName
     ) {}
 }
 

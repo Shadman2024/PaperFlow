@@ -58,7 +58,9 @@ public class AuthController {
                 3600,
                 user.getId(),
                 user.getEmail(),
-                roleNames
+                roleNames,               
+                user.getFullName()
+
             )
         );
     }

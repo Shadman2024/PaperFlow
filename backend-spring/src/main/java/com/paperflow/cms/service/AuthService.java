@@ -43,9 +43,13 @@ public class AuthService {
     }
 
     public User login(String email, String password) {
-        return userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
             .filter(u -> u.getPassword().equals(password))
             .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+    System.out.println("DEBUG FULL NAME = " + user.getFullName()); // 👈 add this
+
+    return user;
+
     }
 
     public String generateAccessToken(User user) {

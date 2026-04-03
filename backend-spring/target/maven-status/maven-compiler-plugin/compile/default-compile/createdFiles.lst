@@ -1,9 +1,9 @@
 com/paperflow/cms/web/dto/PaperDtos$SubmitPaperRequest.class
-com/paperflow/cms/domain/AssignmentStatus.class
 com/paperflow/cms/domain/ConferenceInvitation.class
+com/paperflow/cms/domain/AssignmentStatus.class
 com/paperflow/cms/domain/VerificationToken.class
-com/paperflow/cms/config/BackendConfig.class
 com/paperflow/cms/web/dto/ReviewDtos$PendingReviewsResponse.class
+com/paperflow/cms/config/BackendConfig.class
 com/paperflow/cms/web/dto/ConferenceDtos.class
 com/paperflow/cms/web/PaperController.class
 com/paperflow/cms/service/WorkflowClient.class

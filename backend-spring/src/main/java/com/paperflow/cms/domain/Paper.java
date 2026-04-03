@@ -43,6 +43,15 @@ public class Paper {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
 
+@Column(name = "file_path", length = 1024)
+    private String filePath;
+
+    public String getFilePath() {
+        return filePath;
+    }
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
     public Paper() {
     }
 

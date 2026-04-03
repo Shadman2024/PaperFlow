@@ -4,7 +4,7 @@ import AppShell from "@/components/layout/AppShell";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Card from "@/components/ui/Card";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { loginUser } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
@@ -15,15 +15,25 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+    useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, []);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
     try {
+
+      
       const res = await loginUser({ email, password });
+console.log(res);
+console.log(res.fullName);
       localStorage.setItem("accessToken", res.accessToken);
       localStorage.setItem("userId", res.userId);
       localStorage.setItem("email", res.email);
+      localStorage.setItem("fullName", res.fullName);
       localStorage.setItem("roles", JSON.stringify(res.roles));
       router.push("/");
     } catch (err: any) {
@@ -34,7 +44,7 @@ export default function LoginPage() {
   }
 
   return (
-    <AppShell>
+    <AppShell bare>
       <div className="flex h-full items-center justify-center">
         <Card className="w-full max-w-md">
           <h1 className="text-xl font-semibold tracking-tight">Login</h1>

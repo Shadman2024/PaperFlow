@@ -12,29 +12,44 @@ export default function SubmitPaperPage() {
   const params = useParams<{ id: string }>();
   const conferenceId = params.id;
 
+  const [file , setFile] = useState<File | null>(null);
   const [form, setForm] = useState({
     title: "",
     abstract: "",
     track: ""
   });
   const [message, setMessage] = useState<string | null>(null);
+async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    try {
-      const res = await submitPaper({
-        conferenceId,
-        title: form.title,
-        abstract: form.abstract,
-        authors: [], // later: populate from logged-in user
-        track: form.track
-      });
-      setMessage(`Submitted paper ${res.paperId} (${res.status})`);
-    } catch (err: any) {
-      setMessage(err.message ?? "Failed to submit paper");
-    }
+  console.log("🚀 Submit clicked");
+  console.log("conferenceId:", conferenceId);
+  console.log("form:", form);
+  console.log("file:", file);
+
+  if (!file) {
+    setMessage("Please select a PDF file");
+    return;
   }
 
+  const formData = new FormData();
+  formData.append("conferenceId", conferenceId);
+  formData.append("title", form.title);
+  formData.append("abstractText", form.abstract);
+  formData.append("track", form.track);
+  formData.append("file", file);
+
+  console.log("📦 FormData ready");
+
+  try {
+    const res = await submitPaper(formData);
+    console.log("✅ Response:", res);
+    setMessage(`Submitted paper ${res.paperId} (${res.status})`);
+  } catch (err: any) {
+    console.log("❌ ERROR:", err);
+    setMessage(err.message ?? "Failed to submit paper");
+  }
+}
   return (
     <AppShell>
       <h1 className="text-2xl font-semibold tracking-tight">
@@ -63,6 +78,19 @@ export default function SubmitPaperPage() {
             value={form.track}
             onChange={(e) => setForm({ ...form, track: e.target.value })}
           />
+
+                 <label className="flex flex-col gap-1 text-sm">
+  <span className="font-medium text-slate-700">Upload PDF</span>
+  <input
+    type="file"
+    accept="application/pdf"
+    onChange={(e) => {
+      if (e.target.files && e.target.files[0]) {
+        setFile(e.target.files[0]);
+      }
+    }}
+  />
+</label>
           {message && (
             <p className="text-xs text-slate-600">
               {message}
