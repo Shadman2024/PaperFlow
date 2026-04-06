@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:paperflow;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:postgresql://localhost:5432/paperflow
+    driverClassName: org.postgresql.Driver
+    username: paperflow_user
+    password: paperflow123
   jpa:
     hibernate:
       ddl-auto: update
@@ -11,10 +11,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 server:
   port: 8080
-
 paperflow:
   fastapi-base-url: ${FASTAPI_BASE_URL:http://localhost:8001}
-
