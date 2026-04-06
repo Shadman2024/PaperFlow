@@ -148,12 +148,12 @@ function ProfileDashboard({
             Welcome back,{" "}
             <span className="text-slate-600">{fullName || "User"}</span>
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          {/* <p className="mt-1 text-sm text-slate-500">
             Role:{" "}
             <span className="font-medium text-slate-700">
               {roles.join(", ") || "AUTHOR"}
             </span>
-          </p>
+          </p> */}
         </div>
 
         {/* Conferences as Admin – CHAIR only */}
@@ -264,9 +264,10 @@ function ProfileDashboard({
           ) : (
             <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {papers.map((p) => (
+                
                 <Card key={p.id}>
                   <div className="text-xs uppercase tracking-wide text-slate-400">
-                    Conference: {p.conferenceId}
+                    Conference: {p.conferenceTitle}
                   </div>
                   <div className="mt-1 font-semibold">{p.title}</div>
                   <div className="mt-1 text-xs text-slate-500">

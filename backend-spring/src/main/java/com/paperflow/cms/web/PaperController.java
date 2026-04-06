@@ -36,7 +36,8 @@ public class PaperController {
                 p.getId(),
                 p.getTitle(),
                 p.getStatus().name(),
-                p.getConference().getId()
+                p.getConference().getId(),
+                p.getConference().getTitle()
             ))
             .toList();
         return ResponseEntity.ok(new PaperDtos.ListPapersResponse(data, data.size()));

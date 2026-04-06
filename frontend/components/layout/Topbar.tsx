@@ -31,11 +31,11 @@ export default function Topbar() {
         Welcome back, <span className="font-semibold">{fullName || "Guest"}</span>
       </div>
       <div className="flex items-center gap-3 text-xs text-slate-500">
-        {roles.length > 0 && (
+        {/* {roles.length > 0 && (
           <span className="hidden sm:inline">
             Role: {roles.join(", ")}
           </span>
-        )}
+        )} */}
         <button
           onClick={handleLogout}
           className="rounded-md border px-3 py-1 text-xs font-medium hover:bg-slate-50"

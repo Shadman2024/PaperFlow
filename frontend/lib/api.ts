@@ -144,6 +144,7 @@ export interface PaperSummary {
   title: string;
   status: string;
   conferenceId: string;
+  conferenceTitle: string;
 }
 
 export interface ListPapersResponse {
