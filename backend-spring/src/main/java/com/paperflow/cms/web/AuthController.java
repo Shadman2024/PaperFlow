@@ -5,8 +5,10 @@ import com.paperflow.cms.service.AuthService;
 import com.paperflow.cms.web.dto.AuthDtos;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
@@ -58,8 +60,22 @@ public class AuthController {
                 3600,
                 user.getId(),
                 user.getEmail(),
-                roleNames
+                roleNames,               
+                user.getFullName(),
+                user.getAffiliation(),
+                user.getCountry()
+
             )
+        );
+    }
+    @PutMapping("/auth/profile")
+    public ResponseEntity<AuthDtos.UpdateProfileResponse> pdateProfile(
+    @RequestParam("userId") String userId, 
+    @RequestBody AuthDtos.UpdateProfileRequest request
+) {
+        authService.updateProfile(userId, request.fullName(), request.affiliation(), request.country());
+        return ResponseEntity.ok(
+            new AuthDtos.UpdateProfileResponse(userId, "SUCCESS", "Profile updated successfully.")
         );
     }
 }

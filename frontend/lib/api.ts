@@ -19,8 +19,12 @@ async function request<T>(
     throw new Error(text || res.statusText);
   }
 
-  if (res.status === 204) return undefined as T;
-  return (await res.json()) as T;
+  // ✅ SAFE PARSE
+  const text = await res.text();
+
+  if (!text) return undefined as T;
+
+  return JSON.parse(text) as T;
 }
 
 // Auth
@@ -57,6 +61,7 @@ export interface LoginResponse {
   expiresIn: number;
   userId: string;
   email: string;
+  fullName: string;
   roles: string[];
 }
 
@@ -139,6 +144,7 @@ export interface PaperSummary {
   title: string;
   status: string;
   conferenceId: string;
+  conferenceTitle: string;
 }
 
 export interface ListPapersResponse {
@@ -151,13 +157,34 @@ export function listPapers(conferenceId?: string) {
   return request<ListPapersResponse>(`/paperflow/v1/papers${qs}`);
 }
 
-export function submitPaper(body: SubmitPaperRequest) {
-  return request<SubmitPaperResponse>("/paperflow/v1/papers", {
-    method: "POST",
-    body: JSON.stringify(body)
-  });
-}
+// export function submitPaper(body: SubmitPaperRequest) {
+//   return request<SubmitPaperResponse>("/paperflow/v1/papers", {
+//     method: "POST",
+//     body: JSON.stringify(body)
+//   });
+// }
+export async function submitPaper(formData: FormData) {
+  console.log("📡 Sending request to backend...");
 
+  for (const pair of formData.entries()) {
+    console.log("➡️", pair[0], pair[1]);
+  }
+
+  const res = await fetch(`${API_BASE_URL}/paperflow/v1/papers/upload`, {
+    method: "POST",
+    body: formData
+  });
+
+  console.log("📥 Response status:", res.status);
+
+  if (!res.ok) {
+    const text = await res.text();
+    console.log("❌ Backend error:", text);
+    throw new Error(text || "Failed to submit paper");
+  }
+
+  return res.json();
+}
 // Reviews & Assignments
 
 export interface PendingReviewsResponse {
@@ -196,3 +223,25 @@ export function submitReview(body: SubmitReviewRequest) {
   });
 }
 
+
+export interface UpdateProfileRequest {
+  fullName: string;
+  affiliation?: string;
+  country?: string;
+}
+
+export interface UpdateProfileResponse {
+  userId: string;
+  status: string;
+  message: string;
+}
+
+export function updateProfile(userId: string, body: UpdateProfileRequest) {
+  return request<UpdateProfileResponse>(
+    `/paperflow/v1/auth/profile?userId=${encodeURIComponent(userId)}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }
+  );
+}

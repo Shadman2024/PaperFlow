@@ -1,10 +1,20 @@
 "use client";
-
 import type { ReactNode } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 
-export default function AppShell({ children }: { children: ReactNode }) {
+export default function AppShell({ children, bare = false }: { 
+  children: ReactNode;
+  bare?: boolean;
+}) {
+  if (bare) {
+    return (
+      <div className="h-screen bg-slate-50">
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen">
       <Sidebar />
@@ -17,4 +27,3 @@ export default function AppShell({ children }: { children: ReactNode }) {
     </div>
   );
 }
-

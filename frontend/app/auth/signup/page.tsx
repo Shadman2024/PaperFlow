@@ -26,12 +26,15 @@ export default function SignupPage() {
     setMessage(null);
     try {
       const res = await registerUser({
+
         email: form.email,
         password: form.password,
         fullName: form.fullName,
         affiliation: form.affiliation,
         country: form.country
       });
+
+      localStorage.setItem("fullName", form.fullName);
       setMessage(`${res.message} Redirecting to login...`);
       setTimeout(() => router.push("/auth/login"), 1500);
     } catch (err: any) {
@@ -42,7 +45,7 @@ export default function SignupPage() {
   }
 
   return (
-    <AppShell>
+    <AppShell bare>
       <div className="flex h-full items-center justify-center">
         <Card className="w-full max-w-md">
           <h1 className="text-xl font-semibold tracking-tight">Sign up</h1>

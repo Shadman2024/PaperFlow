@@ -4,7 +4,7 @@ import AppShell from "@/components/layout/AppShell";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   listConferences,
   listPapers,
@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 function PublicLanding() {
   const [confs, setConfs] = useState<ConferenceSummary[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fullName, setFullName] = useState<string>("");
+  const [roles, setRoles] = useState<string[]>([]);
 
   useEffect(() => {
     listConferences({ page: 1, limit: 20 })
@@ -24,7 +26,14 @@ function PublicLanding() {
       .catch(() => setConfs([]))
       .finally(() => setLoading(false));
   }, []);
-
+  useEffect(() => {
+    setFullName(localStorage.getItem("fullName") ?? "");
+    try {
+      setRoles(JSON.parse(localStorage.getItem("roles") ?? "[]"));
+    } catch {
+      setRoles([]);
+    }
+  }, []);
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="flex items-center justify-between border-b bg-white px-6 py-4 shadow-sm">
@@ -82,6 +91,8 @@ function ProfileDashboard({
   roles: string[];
 }) {
   const router = useRouter();
+
+  const [fullName, setFullName] = useState<string>("");
   const [confs, setConfs] = useState<ConferenceSummary[]>([]);
   const [papers, setPapers] = useState<PaperSummary[]>([]);
   const [assignments, setAssignments] = useState<
@@ -93,6 +104,10 @@ function ProfileDashboard({
     }[]
   >([]);
   const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    setFullName(localStorage.getItem("fullName") ?? "");
+  }, []);
 
   const isChair = roles.includes("CHAIR");
   const isReviewer = roles.includes("REVIEWER");
@@ -131,14 +146,14 @@ function ProfileDashboard({
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">
             Welcome back,{" "}
-            <span className="text-slate-600">{email || "User"}</span>
+            <span className="text-slate-600">{fullName || "User"}</span>
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          {/* <p className="mt-1 text-sm text-slate-500">
             Role:{" "}
             <span className="font-medium text-slate-700">
               {roles.join(", ") || "AUTHOR"}
             </span>
-          </p>
+          </p> */}
         </div>
 
         {/* Conferences as Admin – CHAIR only */}
@@ -249,9 +264,10 @@ function ProfileDashboard({
           ) : (
             <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {papers.map((p) => (
+                
                 <Card key={p.id}>
                   <div className="text-xs uppercase tracking-wide text-slate-400">
-                    Conference: {p.conferenceId}
+                    Conference: {p.conferenceTitle}
                   </div>
                   <div className="mt-1 font-semibold">{p.title}</div>
                   <div className="mt-1 text-xs text-slate-500">

@@ -43,10 +43,17 @@ public class AuthService {
     }
 
     public User login(String email, String password) {
-        return userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
             .filter(u -> u.getPassword().equals(password))
             .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+    System.out.println("DEBUG FULL NAME = " + user.getFullName()); // 👈 add this
+
+    return user;
+
     }
+
+    //
+
 
     public String generateAccessToken(User user) {
         // Mock token for prototype
@@ -56,5 +63,17 @@ public class AuthService {
     public String generateRefreshToken(User user) {
         return "mock-rt-" + user.getId() + "-" + UUID.randomUUID();
     }
+
+        public User updateProfile(String userId, String fullName, String affiliation, String country) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (fullName != null) user.setFullName(fullName);
+        if (affiliation != null) user.setAffiliation(affiliation);
+        if (country != null) user.setCountry(country);
+
+        return userRepository.save(user);
+    }
+
 }
 

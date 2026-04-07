@@ -10,4 +10,8 @@ __pycache__/
 .env/
 .next/
 *.class
+<<<<<<< HEAD
 backend-spring/target/
+=======
+frontend/.next/
+>>>>>>> nidhi

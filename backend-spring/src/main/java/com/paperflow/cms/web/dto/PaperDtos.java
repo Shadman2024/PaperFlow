@@ -21,7 +21,8 @@ public class PaperDtos {
         String id,
         String title,
         String status,
-        String conferenceId
+        String conferenceId,
+        String conferenceTitle
     ) {}
 
     public record ListPapersResponse(
