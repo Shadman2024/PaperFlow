@@ -28,9 +28,9 @@ public class PaperController {
 
     @GetMapping("/papers")
     public ResponseEntity<PaperDtos.ListPapersResponse> list(
-        @RequestParam(name = "conferenceId", required = false) String conferenceId
-    ) {
-        List<Paper> papers = paperService.listPapers(conferenceId);
+        @RequestParam(name = "conferenceId", required = false) String conferenceId,
+    @RequestParam(name = "authorId", required = false) String authorId) {
+        List<Paper> papers = paperService.listPapers(conferenceId,authorId);
         List<PaperDtos.PaperSummary> data = papers.stream()
             .map(p -> new PaperDtos.PaperSummary(
                 p.getId(),
@@ -77,7 +77,8 @@ public ResponseEntity<PaperDtos.SubmitPaperResponse> uploadPaper(
     @RequestParam(name = "title") String title,
     @RequestParam(name = "abstractText") String abstractText,
     @RequestParam(name = "track") String track,
-    @RequestParam(name = "file") MultipartFile file) {
+    @RequestParam(name = "file") MultipartFile file,
+    @RequestParam(name = "authorId", required = false) String authorId) {
 
     // System.out.println(" CONTROLLER HIT");
 
@@ -86,7 +87,8 @@ public ResponseEntity<PaperDtos.SubmitPaperResponse> uploadPaper(
         title,
         abstractText,
         track,
-        file
+        file,
+        authorId 
     );
 
     // System.out.println("SERVICE RETURNED");

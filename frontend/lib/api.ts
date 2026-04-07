@@ -152,9 +152,12 @@ export interface ListPapersResponse {
   total: number;
 }
 
-export function listPapers(conferenceId?: string) {
-  const qs = conferenceId ? `?conferenceId=${encodeURIComponent(conferenceId)}` : "";
-  return request<ListPapersResponse>(`/paperflow/v1/papers${qs}`);
+export function listPapers(conferenceId?: string, authorId?: string) {
+  const search = new URLSearchParams();
+  if (conferenceId) search.set("conferenceId", encodeURIComponent(conferenceId));
+  if (authorId) search.set("authorId", encodeURIComponent(authorId));
+  const qs = search.toString();
+  return request<ListPapersResponse>(`/paperflow/v1/papers${qs ? `?${qs}` : ""}`);
 }
 
 // export function submitPaper(body: SubmitPaperRequest) {

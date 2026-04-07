@@ -38,6 +38,7 @@ async function handleSubmit(e: React.FormEvent) {
   formData.append("abstractText", form.abstract);
   formData.append("track", form.track);
   formData.append("file", file);
+  formData.append("authorId", localStorage.getItem("userId") ?? "");
 
   console.log("📦 FormData ready");
 

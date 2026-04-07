@@ -123,7 +123,7 @@ function ProfileDashboard({
     );
 
     promises.push(
-      listPapers()
+      listPapers(undefined, userId) 
         .then((res) => setPapers(res.data))
         .catch(() => setPapers([]))
     );

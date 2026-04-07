@@ -114,5 +114,12 @@ public class Paper {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "author_id", nullable = true)
+private com.paperflow.cms.domain.User author;
+
+public com.paperflow.cms.domain.User getAuthor() { return author; }
+public void setAuthor(com.paperflow.cms.domain.User author) { this.author = author; }
 }
 

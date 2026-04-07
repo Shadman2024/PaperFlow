@@ -12,7 +12,13 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
 server:
   port: 8080
+
 paperflow:
   fastapi-base-url: ${FASTAPI_BASE_URL:http://localhost:8001}

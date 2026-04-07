@@ -5,6 +5,7 @@ import com.paperflow.cms.domain.Paper;
 import com.paperflow.cms.domain.PaperStatus;
 import com.paperflow.cms.repository.ConferenceRepository;
 import com.paperflow.cms.repository.PaperRepository;
+import com.paperflow.cms.repository.UserRepository;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,11 +17,12 @@ public class PaperService {
 
     private final PaperRepository paperRepository;
     private final ConferenceRepository conferenceRepository;
-
+    private final UserRepository userRepository;
     public PaperService(PaperRepository paperRepository,
-                        ConferenceRepository conferenceRepository) {
+                        ConferenceRepository conferenceRepository , UserRepository userRepository) {
         this.paperRepository = paperRepository;
         this.conferenceRepository = conferenceRepository;
+        this.userRepository = userRepository;
     }
 
     // public Paper submitPaper(String conferenceId,
@@ -39,11 +41,17 @@ public class PaperService {
     //     return paperRepository.save(paper);
     // }
 
-    public java.util.List<Paper> listPapers(String conferenceId) {
-        if (conferenceId != null && !conferenceId.isBlank()) {
-            return paperRepository.findByConference_Id(conferenceId);
-        }
-        return paperRepository.findAll();
+    public java.util.List<Paper> listPapers(String conferenceId , String authorId) {
+    if (conferenceId != null && !conferenceId.isBlank() && authorId != null && !authorId.isBlank()) {
+        return paperRepository.findByConference_IdAndAuthor_Id(conferenceId, authorId);
+    }
+    if (conferenceId != null && !conferenceId.isBlank()) {
+        return paperRepository.findByConference_Id(conferenceId);
+    }
+    if (authorId != null && !authorId.isBlank()) {
+        return paperRepository.findByAuthor_Id(authorId);
+    }
+    return paperRepository.findAll();
     }
 
     public Paper updateStatus(String paperId, PaperStatus status) {
@@ -76,7 +84,7 @@ public Paper submitPaper(
     String title,
     String abstractText,
     String track,
-    MultipartFile file) {
+    MultipartFile file , String authorId) {
     
     try {
     
@@ -98,6 +106,9 @@ public Paper submitPaper(
         paper.setFilePath(filePath); 
         paper.setFileUrl("/files/" + file.getOriginalFilename());
 
+        if (authorId != null && !authorId.isBlank()) {
+        userRepository.findById(authorId).ifPresent(paper::setAuthor);
+    }
         
         return paperRepository.save(paper);
 
