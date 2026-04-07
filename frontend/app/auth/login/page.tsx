@@ -7,6 +7,7 @@ import Card from "@/components/ui/Card";
 import { useState , useEffect } from "react";
 import { loginUser } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -68,11 +69,17 @@ console.log(res.fullName);
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            {error && (
-              <p className="text-xs text-red-600">
-                {"Sorry , an error occured . Please try with correct credentials"}
-              </p>
-            )}
+                {error && (
+        <div className="rounded-md bg-red-50 p-3 text-xs text-red-600 space-y-1">
+          <p>No account found with these credentials.</p>
+          <p>
+            Don&apos;t have an account?{" "}
+            <Link href="/auth/signup" className="font-medium underline underline-offset-2">
+              Sign up here
+            </Link>
+          </p>
+        </div>
+      )}
             <Button type="submit" className="w-full" disabled={loading} >
               {loading ? "Signing in..." : "Sign in"}
             </Button>
