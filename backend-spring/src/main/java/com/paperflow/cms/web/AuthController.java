@@ -69,10 +69,10 @@ public class AuthController {
         );
     }
     @PutMapping("/auth/profile")
-    public ResponseEntity<AuthDtos.UpdateProfileResponse> updateProfile(
-        @RequestBody AuthDtos.UpdateProfileRequest request,
-        @RequestParam String userId
-    ) {
+    public ResponseEntity<AuthDtos.UpdateProfileResponse> pdateProfile(
+    @RequestParam("userId") String userId, 
+    @RequestBody AuthDtos.UpdateProfileRequest request
+) {
         authService.updateProfile(userId, request.fullName(), request.affiliation(), request.country());
         return ResponseEntity.ok(
             new AuthDtos.UpdateProfileResponse(userId, "SUCCESS", "Profile updated successfully.")
