@@ -36,8 +36,8 @@ console.log(res.fullName);
       localStorage.setItem("email", res.email);
       localStorage.setItem("fullName", res.fullName);
       localStorage.setItem("roles", JSON.stringify(res.roles));
-      localStorage.setItem("affiliation", res.affiliation ?? "");
-      localStorage.setItem("country", res.country ?? "");
+      localStorage.setItem("affiliation", ((res as any).affiliation ?? ""));
+      localStorage.setItem("country", ((res as any).country ?? ""));
       router.push("/");
     } catch (err: any) {
       setError(err.message ?? "Login failed");
